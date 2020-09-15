@@ -16,6 +16,7 @@ const { openWebSocket } = require('./openWebSocket');
 const { saveDevicesCache } = require('./saveDevicesCache');
 const { setDevicePowerState } = require('./setDevicePowerState');
 const { toggleDevice } = require('./toggleDevice');
+const { setDeviceColor } = require('./setDeviceColor');
 
 const mixins = {
   checkDevicesUpdates,
@@ -36,6 +37,7 @@ const mixins = {
   saveDevicesCache,
   setDevicePowerState,
   toggleDevice,
+  setDeviceColor
 };
 
 module.exports = mixins;
