@@ -1,5 +1,6 @@
 const { checkDevicesUpdates } = require('./checkDevicesUpdates');
 const { checkDeviceUpdate } = require('./checkDeviceUpdate');
+const deviceControl = require('./deviceControl');
 const { getCredentials } = require('./getCredentials');
 const { getDevice } = require('./getDevice');
 const { getDeviceChannelCount } = require('./getDeviceChannelCount');
@@ -11,7 +12,7 @@ const { getDevicePowerUsageRaw } = require('./getDevicePowerUsageRaw');
 const { getDevices } = require('./getDevices');
 const { getFirmwareVersion } = require('./getFirmwareVersion');
 const { getRegion } = require('./getRegion');
-const { makeRequest } = require('./makeRequest')
+const { makeRequest } = require('./makeRequest');
 const { openWebSocket } = require('./openWebSocket');
 const { saveDevicesCache } = require('./saveDevicesCache');
 const { setDevicePowerState } = require('./setDevicePowerState');
@@ -21,6 +22,7 @@ const { setDeviceColor } = require('./setDeviceColor');
 const mixins = {
   checkDevicesUpdates,
   checkDeviceUpdate,
+  ...deviceControl,
   getCredentials,
   getDevice,
   getDeviceChannelCount,
