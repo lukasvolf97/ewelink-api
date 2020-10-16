@@ -41,15 +41,22 @@ module.exports = {
     const queryString = !_empty(qs) ? toQueryString(qs) : '';
     const requestUrl = `${apiUrl}${uri}${queryString}`;
 
-    const request = await fetch(requestUrl, payload);
-    const response = await request.json();
+    while (true) {
+      try {
+        const request = await fetch(requestUrl, payload);
 
-    const error = _get(response, 'error', false);
+        const response = await request.json()
 
-    if (error) {
-      return { error, msg: errors[error] };
+        const error = _get(response, 'error', false);
+
+        if (error) {
+          return { error, msg: errors[error] };
+        }
+
+        return response;
+      } catch (e) {
+
+      }
     }
-
-    return response;
   },
 };

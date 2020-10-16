@@ -44,14 +44,14 @@ module.exports = {
       stateToSwitch = status === 'on' ? 'off' : 'on';
     }
 
-    if (switches) {
+    if (switches && switches[channel - 1].switch !== stateToSwitch) {
       params.switches = switches;
       params.switches[channel - 1].switch = stateToSwitch;
-    } else {
+    } else if (status !== stateToSwitch) {
       params.switch = stateToSwitch;
     }
 
-    if (this.devicesCache) {
+    if (Object.keys(params).length !== 0 && this.devicesCache) {
       return ChangeStateZeroconf.set({
         url: this.getZeroconfUrl(device),
         device,
@@ -63,23 +63,25 @@ module.exports = {
 
     const { APP_ID } = this;
 
-    const response = await this.makeRequest({
-      method: 'post',
-      uri: '/user/device/status',
-      body: {
-        deviceid: deviceId,
-        params,
-        appid: APP_ID,
-        nonce,
-        ts: timestamp,
-        version: 8,
-      },
-    });
+    if (Object.keys(params).length !== 0) {
+      const response = await this.makeRequest({
+        method: 'post',
+        uri: '/user/device/status',
+        body: {
+          deviceid: deviceId,
+          params,
+          appid: APP_ID,
+          nonce,
+          ts: timestamp,
+          version: 8,
+        },
+      });
 
-    const responseError = _get(response, 'error', false);
+      const responseError = _get(response, 'error', false);
 
-    if (responseError) {
-      return { error: responseError, msg: errors[responseError] };
+      if (responseError) {
+        return { error: responseError, msg: errors[responseError] };
+      }
     }
 
     return { status: 'ok', state, channel };
